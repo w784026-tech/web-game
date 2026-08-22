@@ -6,164 +6,181 @@
 <meta charset="UTF-8">
 
 <meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
 <title>貪吃蛇遊戲</title>
 
 <style>
+
 * {
     box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-}
-
-html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100%;
 }
 
 body {
+    margin: 0;
+    min-height: 100vh;
     min-height: 100dvh;
+
     background: #1b1b1b;
     color: white;
-    font-family: Arial, "Microsoft JhengHei", sans-serif;
+
+    font-family:
+        Arial,
+        "Microsoft JhengHei",
+        sans-serif;
+
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    overflow-x: hidden;
+    align-items: center;
+
     overscroll-behavior: none;
 }
 
 .game {
-    width: min(96vw, 520px);
-    padding: max(10px, env(safe-area-inset-top)) 0
-             max(14px, env(safe-area-inset-bottom));
+    width: min(95vw, 500px);
     text-align: center;
+    padding:
+        env(safe-area-inset-top)
+        env(safe-area-inset-right)
+        env(safe-area-inset-bottom)
+        env(safe-area-inset-left);
+    position: relative;
 }
 
 h1 {
-    margin: 8px 0 10px;
-    font-size: clamp(24px, 7vw, 34px);
+    margin: 10px 0;
 }
 
 .info {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+
+    font-size: 17px;
+
     margin-bottom: 10px;
-    font-size: clamp(14px, 4vw, 17px);
 }
 
-.info > div {
-    background: #292929;
-    border-radius: 8px;
-    padding: 7px 3px;
-}
-
-.canvas-wrap {
-    width: min(92vw, 400px);
-    margin: 0 auto;
-}
 
 canvas {
+
     display: block;
     width: 100%;
-    height: auto;
+    max-width: 400px;
+
     aspect-ratio: 1 / 1;
+
     background: #101010;
+
     border: 3px solid #666;
-    border-radius: 6px;
+
     touch-action: none;
-    user-select: none;
-    -webkit-user-select: none;
 }
 
-.message {
-    min-height: 38px;
-    margin: 8px 0;
-    font-size: clamp(15px, 4.2vw, 18px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.controls {
-    margin-top: 4px;
-    user-select: none;
-    -webkit-user-select: none;
-}
-
-button {
-    width: 68px;
-    height: 56px;
-    margin: 4px;
+.sound {
+    width: 44px;
+    height: 40px;
+    margin: 0;
+    flex: 0 0 auto;
     border: none;
-    border-radius: 12px;
+    border-radius: 10px;
     background: #444;
     color: white;
-    font-size: 26px;
-    font-weight: bold;
+    font-size: 20px;
     touch-action: manipulation;
     cursor: pointer;
 }
 
+.sound:active {
+    background: #777;
+}
+
+.message {
+    min-height: 35px;
+
+    margin: 10px;
+
+    font-size: 18px;
+}
+
+.controls {
+    margin-top: 10px;
+}
+
+button {
+    width: 65px;
+    height: 55px;
+
+    margin: 4px;
+
+    border: none;
+    border-radius: 12px;
+
+    background: #444;
+    color: white;
+
+    font-size: 26px;
+
+    touch-action: manipulation;
+}
+
 button:active {
     background: #777;
-    transform: scale(0.96);
+}
+
+button {
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    cursor: pointer;
+}
+
+.pauseBtn {
+    width: 88px;
+    height: 40px;
+    margin: 0 4px;
+    border-radius: 10px;
+    background: #444;
+    color: white;
+    font-size: 16px;
+    touch-action: manipulation;
 }
 
 .restart {
     width: 150px;
+
     font-size: 18px;
-    margin-top: 8px;
+
+    margin-top: 10px;
 }
 
 .legend {
-    margin-top: 8px;
-    font-size: 13px;
+    margin-top: 12px;
+
+    font-size: 14px;
+
     color: #ccc;
-    line-height: 1.6;
+
+    line-height: 1.7;
 }
 
-@media (max-height: 700px) and (orientation: landscape) {
-    .game {
-        padding-top: 5px;
-    }
-
-    h1 {
-        margin: 3px 0 5px;
-        font-size: 22px;
-    }
-
+@media (max-width: 380px) {
     .info {
-        margin-bottom: 5px;
-    }
-
-    .message {
-        min-height: 25px;
-        margin: 3px 0;
-    }
-
-    .controls {
-        margin-top: 0;
-    }
-
-    button {
-        width: 52px;
-        height: 42px;
-        margin: 2px;
-    }
-
-    .restart {
-        width: 125px;
-        margin-top: 3px;
-    }
-
-    .legend {
-        display: none;
+        flex-wrap: wrap;
+        row-gap: 6px;
+        font-size: 14px;
     }
 }
+
+@media (orientation: landscape) and (max-height: 480px) {
+    .game {
+        max-width: 720px;
+    }
+    canvas {
+        max-width: calc(100dvh - 200px);
+    }
+}
+
 </style>
 
 </head>
@@ -178,9 +195,24 @@ button:active {
 
 <div class="info">
 
+<button
+    class="sound"
+    id="soundBtn"
+    aria-label="靜音切換"
+    onclick="toggleMute()">
+
+🔊
+
+</button>
+
 <div>
 分數：
 <span id="score">0</span>
+</div>
+
+<div>
+最高：
+<span id="high">0</span>
 </div>
 
 <div>
@@ -188,17 +220,23 @@ button:active {
 <span id="level">1</span>
 </div>
 
-<div>
-速度：
-<span id="speed">0.005</span>
-</div>
+<button
+    class="pauseBtn"
+    id="pauseBtn"
+    onclick="togglePause()">
+
+⏸ 暫停
+
+</button>
 
 </div>
 
 
-<div class="canvas-wrap">
-<canvas id="gameCanvas" width="400" height="400"></canvas>
-</div>
+<canvas
+    id="gameCanvas"
+    width="400"
+    height="400">
+</canvas>
 
 
 <div
@@ -214,23 +252,49 @@ button:active {
 
 <div>
 
-<button type="button" data-direction="up" aria-label="向上">↑</button>
+<button
+    onclick="changeDirection('up')">
+
+↑
+
+</button>
 
 </div>
 
 
 <div>
 
-<button type="button" data-direction="left" aria-label="向左">←</button>
+<button
+    onclick="changeDirection('left')">
 
-<button type="button" data-direction="down" aria-label="向下">↓</button>
+←
 
-<button type="button" data-direction="right" aria-label="向右">→</button>
+</button>
+
+<button
+    onclick="changeDirection('down')">
+
+↓
+
+</button>
+
+<button
+    onclick="changeDirection('right')">
+
+→
+
+</button>
 
 </div>
 
 
-<button type="button" class="restart" id="restartButton">重新開始</button>
+<button
+    class="restart"
+    onclick="restartGame()">
+
+重新開始
+
+</button>
 
 </div>
 
@@ -239,7 +303,15 @@ button:active {
 
 普通食物：+1 分、增加 1 節<br>
 
-第 10 關開始出現特殊食物：+5 分、增加 2 節
+特殊食物：+5 分、增加 1 節（第 10 關起）<br>
+
+總共 397 顆食物，填滿 20×20 場域即獲勝 🏆<br>
+
+穿牆：蛇頭出邊界時從對邊出現<br>
+
+控制：⬅⬆⬇➡ 移動｜Space 暫停｜ENTER 重新開始｜🔊 靜音<br>
+
+最高分會自動記錄在本機<br>
 
 </div>
 
@@ -286,6 +358,8 @@ const START_SPEED = 0.005;
 
 const SPEED_INCREMENT = 0.005;
 
+const INITIAL_SNAKE_LENGTH = 3;
+
 
 /* ==========================================
    實際移動時間
@@ -297,6 +371,41 @@ const SPEED_INCREMENT = 0.005;
 ========================================== */
 
 const START_INTERVAL = 500;
+
+
+/*
+總食物數 = 填滿制
+
+20 x 20 = 400 格
+初始蛇長 3 節
+總共 397 顆
+= 蛇把整個場域填滿即獲勝
+*/
+
+const BOARD_CELLS =
+    tileCount * tileCount;
+
+const TOTAL_FOOD =
+    BOARD_CELLS - INITIAL_SNAKE_LENGTH;
+
+
+/*
+收尾模式
+
+最後 3 關
+
+場上只保留 1 顆食物
+並靠近蛇頭前方產生
+方便蛇的路線
+*/
+
+const FINAL_LEVEL =
+    Math.max(
+        2,
+        Math.floor(
+            TOTAL_FOOD / 5
+        ) - 2
+    );
 
 
 /*
@@ -337,11 +446,21 @@ let level;
 
 let levelFood;
 
+let foodsRemaining;
+
 let gameStarted;
 
 let gameOver;
 
+let victory;
+
 let gameLoop;
+
+let paused;
+
+let muted;
+
+let highScore;
 
 
 /* ==========================================
@@ -365,10 +484,6 @@ function getSpeed() {
 ========================================== */
 
 function getInterval() {
-
-    const speed =
-        getSpeed();
-
 
     const levelGroup =
         Math.floor(
@@ -429,10 +544,21 @@ function restartGame() {
 
     levelFood = 0;
 
+    foodsRemaining =
+        TOTAL_FOOD;
+
 
     gameStarted = false;
 
     gameOver = false;
+
+    victory = false;
+
+    paused = false;
+
+    setPauseBtn(
+        false
+    );
 
 
     foods = [];
@@ -461,22 +587,35 @@ function restartGame() {
 
 function updateInfo() {
 
-    document.getElementById(
-        "score"
-    ).textContent =
-        score;
+    const scoreEl =
+        document.getElementById("score");
 
+    const highEl =
+        document.getElementById("high");
 
-    document.getElementById(
-        "level"
-    ).textContent =
-        level;
+    const levelEl =
+        document.getElementById("level");
 
+    if (scoreEl) {
 
-    document.getElementById(
-        "speed"
-    ).textContent =
-        getSpeed().toFixed(3);
+        scoreEl.textContent =
+            score;
+
+    }
+
+    if (highEl) {
+
+        highEl.textContent =
+            highScore;
+
+    }
+
+    if (levelEl) {
+
+        levelEl.textContent =
+            level;
+
+    }
 
 }
 
@@ -535,10 +674,195 @@ function isOnFood(
 
 
 /* ==========================================
-   建立普通食物
-========================================== */
+   在指定位置建立普通食物
+
+   收尾模式
+   用來把食物放在
+   蛇頭前方
+ ========================================== */
+
+function createNormalFoodAt(
+    x,
+    y
+) {
+
+    foods.push({
+
+        x: x,
+
+        y: y,
+
+        type: "normal"
+
+    });
+
+}
+
+
+/* ==========================================
+   判斷目前是第幾關
+   （收尾模式用）
+ ========================================== */
+
+function isFinalPhase() {
+
+    return level >= FINAL_LEVEL;
+
+}
+
+
+/* ==========================================
+   找蛇頭前方的最近空位
+ ========================================== */
+
+function findSpotAhead() {
+
+    const head =
+        snake[0];
+
+
+    const order = [
+
+        {
+            x: 1,
+            y: 0
+        },
+
+        {
+            x: -1,
+            y: 0
+        },
+
+        {
+            x: 0,
+            y: 1
+        },
+
+        {
+            x: 0,
+            y: -1
+        },
+
+        {
+            x: 2,
+            y: 0
+        },
+
+        {
+            x: -2,
+            y: 0
+        },
+
+        {
+            x: 0,
+            y: 2
+        },
+
+        {
+            x: 0,
+            y: -2
+        }
+
+    ];
+
+
+    for (
+        let r = 0;
+        r < order.length;
+        r++
+    ) {
+
+        const x =
+            head.x +
+            order[r].x;
+
+        const y =
+            head.y +
+            order[r].y;
+
+
+        if (
+
+            x < 0 ||
+            y < 0 ||
+            x >= tileCount ||
+            y >= tileCount
+
+        ) {
+
+            continue;
+
+        }
+
+
+        if (
+
+            !isOnSnake(x, y) &&
+            !isOnFood(x, y)
+
+        ) {
+
+            return {
+                x: x,
+                y: y
+            };
+
+        }
+
+    }
+
+
+    return null;
+
+}
+
+
+/* ==========================================
+   補一個普通食物
+
+   收尾模式
+   場上只保留 1 顆
+   放到蛇頭前方
+
+   一般模式
+   隨機位置
+ ========================================== */
 
 function createNormalFood() {
+
+    if (
+        isFinalPhase()
+    ) {
+
+        /*
+        收尾模式
+        新食物盡量放在蛇頭前方，
+        找得到就放；找不到再退回隨機位置。
+
+        刻意**不**清空場上已有的食物，
+        保留填滿制的食物不變式
+        （每一顆都能被吃到 → 蛇最終恰好 400 節）。
+        */
+
+        const spot =
+            findSpotAhead();
+
+
+        if (
+            spot
+        ) {
+
+            createNormalFoodAt(
+                spot.x,
+                spot.y
+            );
+
+            return;
+
+        }
+
+    }
+
 
     let x;
 
@@ -636,20 +960,33 @@ function getFoodAt(
 
 function startGame() {
 
-    if (gameOver) {
+    if (
+        gameStarted ||
+        gameOver ||
+        victory
+    ) {
+
         return;
+
     }
 
-    if (gameStarted) {
-        return;
-    }
 
     gameStarted = true;
 
-    document.getElementById("message").textContent = "";
+    resumeAudio();
 
-    clearInterval(gameLoop);
-    gameLoop = setInterval(update, getInterval());
+
+    document.getElementById(
+        "message"
+    ).textContent = "";
+
+
+    gameLoop =
+        setInterval(
+            update,
+            getInterval()
+        );
+
 }
 
 
@@ -709,23 +1046,17 @@ function update() {
 
 
     /* --------------------------------------
-       撞牆
+       穿牆（wrap）
+       出邊界時從對邊同座標出現，不死亡
     -------------------------------------- */
 
-    if (
+    head.x =
+        (head.x + tileCount) %
+        tileCount;
 
-        head.x < 0 ||
-        head.x >= tileCount ||
-        head.y < 0 ||
-        head.y >= tileCount
-
-    ) {
-
-        endGame();
-
-        return;
-
-    }
+    head.y =
+        (head.y + tileCount) %
+        tileCount;
 
 
     /* --------------------------------------
@@ -785,11 +1116,14 @@ function update() {
 
             levelFood += 1;
 
+            playSound("eat");
+
         }
 
 
         /* -------------------------------
            特殊食物
+           只加分 +5，蛇長成長與普通相同（各 +1 節）
         ------------------------------- */
 
         if (
@@ -800,19 +1134,7 @@ function update() {
 
             levelFood += 1;
 
-
-            /*
-            特殊食物
-            額外增加一節
-            */
-
-            snake.push({
-
-                ...snake[
-                    snake.length - 1
-                ]
-
-            });
+            playSound("star");
 
         }
 
@@ -821,6 +1143,27 @@ function update() {
             foodIndex,
             1
         );
+
+
+        /* --------------------------------
+           食物遞減
+
+           吃到最後一顆
+           直接獲勝
+        -------------------------------- */
+
+        foodsRemaining--;
+
+
+        if (
+            foodsRemaining <= 0
+        ) {
+
+            winGame();
+
+            return;
+
+        }
 
 
         /* --------------------------------
@@ -834,6 +1177,8 @@ function update() {
             level++;
 
             levelFood = 0;
+
+            playSound("level");
 
 
             clearInterval(
@@ -851,10 +1196,14 @@ function update() {
             /*
             第 10 關開始
             出現特殊食物
+
+            收尾模式
+            不再出現特殊食物
             */
 
             if (
-                level >= 10
+                level >= 10 &&
+                !isFinalPhase()
             ) {
 
                 createSpecialFood();
@@ -862,12 +1211,50 @@ function update() {
             }
 
 
-            document.getElementById(
-                "message"
-            ).textContent =
-                "進入第 " +
-                level +
-                " 關！";
+            /* --------------------------------
+               進入收尾模式
+
+               場上只保留 1 顆食物
+               並靠近蛇頭前方產生
+               方便蛇的路線
+            -------------------------------- */
+
+            if (
+                isFinalPhase()
+            ) {
+
+                document.getElementById(
+                    "message"
+                ).textContent =
+                    "進入第 " +
+                    level +
+                    " 關！收尾模式：食物會靠近蛇頭！";
+
+
+                setTimeout(
+
+                    function() {
+
+                        if (
+                            !gameOver
+                        ) {
+
+                            document.getElementById(
+                                "message"
+                            ).textContent =
+                                "";
+
+                        }
+
+                    },
+
+                    2000
+
+                );
+
+                return;
+
+            }
 
 
             setTimeout(
@@ -925,25 +1312,511 @@ function update() {
    改變方向
 ========================================== */
 
-function changeDirection(newDirection) {
+function changeDirection(
+    newDirection
+) {
 
-    if (gameOver) {
+    if (
+        gameOver ||
+        victory
+    ) {
+
         return;
+
     }
 
-    const opposite = {
-        up: "down",
-        down: "up",
-        left: "right",
-        right: "left"
-    };
+    if (
+        paused
+    ) {
 
-    if (direction && opposite[newDirection] === direction) {
         return;
+
     }
 
-    nextDirection = newDirection;
+    resumeAudio();
+
+    /*
+    防止蛇直接 180 度轉彎
+    */
+
+    if (
+
+        newDirection === "up" &&
+        direction === "down"
+
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+
+        newDirection === "down" &&
+        direction === "up"
+
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+
+        newDirection === "left" &&
+        direction === "right"
+
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+
+        newDirection === "right" &&
+        direction === "left"
+
+    ) {
+
+        return;
+
+    }
+
+
+    nextDirection =
+        newDirection;
+
+
     startGame();
+
+}
+
+
+/* ==========================================
+   暫停 / 繼續
+========================================== */
+
+function setPauseBtn(
+    isPaused
+) {
+
+    const btn =
+        document.getElementById(
+            "pauseBtn"
+        );
+
+    if (btn) {
+
+        btn.textContent =
+            isPaused ?
+            "▶ 繼續" :
+            "⏸ 暫停";
+
+    }
+
+}
+
+function togglePause() {
+
+    if (
+        gameOver ||
+        victory
+    ) {
+
+        return;
+
+    }
+
+    if (
+        gameStarted === false
+    ) {
+
+        return;
+
+    }
+
+    paused = !paused;
+
+    setPauseBtn(
+        paused
+    );
+
+    if (
+        paused
+    ) {
+
+        clearInterval(
+            gameLoop
+        );
+
+        document.getElementById(
+            "message"
+        ).textContent =
+            "⏸ 已暫停（按 Space 繼續）";
+
+    } else {
+
+        resumeAudio();
+
+        gameLoop =
+            setInterval(
+                update,
+                getInterval()
+            );
+
+        document.getElementById(
+            "message"
+        ).textContent =
+            "";
+
+    }
+
+}
+
+function pauseGame() {
+
+    if (
+        paused ||
+        gameOver ||
+        victory ||
+        gameStarted === false
+    ) {
+
+        return;
+
+    }
+
+    paused = true;
+
+    setPauseBtn(
+        true
+    );
+
+    clearInterval(
+        gameLoop
+    );
+
+    document.getElementById(
+        "message"
+    ).textContent =
+        "⏸ 已暫停（按 Space 繼續）";
+
+}
+
+
+/* ==========================================
+   音效（Web Audio 合成，靜音可切）
+========================================== */
+
+let audioCtx = null;
+
+function resumeAudio() {
+
+    if (
+        audioCtx &&
+        audioCtx.state === "suspended"
+    ) {
+
+        audioCtx.resume();
+
+    }
+
+}
+
+function getCtx() {
+
+    if (!audioCtx) {
+
+        const AC =
+            window.AudioContext ||
+            window.webkitAudioContext;
+
+        if (AC) {
+
+            audioCtx =
+                new AC();
+
+        }
+
+    }
+
+    return audioCtx;
+
+}
+
+function playTone(
+    freq,
+    start,
+    dur,
+    vol
+) {
+
+    const ctx = getCtx();
+
+    if (!ctx) {
+
+        return;
+
+    }
+
+    const osc =
+        ctx.createOscillator();
+
+    const gain =
+        ctx.createGain();
+
+    osc.type = "sine";
+
+    osc.frequency.value = freq;
+
+    const t0 =
+        ctx.currentTime + start;
+
+    gain.gain.setValueAtTime(
+        0.0001,
+        t0
+    );
+
+    gain.gain.linearRampToValueAtTime(
+        vol,
+        t0 + 0.01
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        t0 + dur
+    );
+
+    osc.connect(gain);
+
+    gain.connect(
+        ctx.destination
+    );
+
+    osc.start(
+        t0
+    );
+
+    osc.stop(
+        t0 + dur + 0.02
+    );
+
+}
+
+function playSound(
+    kind
+) {
+
+    if (muted) {
+
+        return;
+
+    }
+
+    if (
+        kind === "eat"
+    ) {
+
+        playTone(
+            620,
+            0,
+            0.06,
+            0.18
+        );
+
+    } else if (
+        kind === "star"
+    ) {
+
+        playTone(
+            880,
+            0,
+            0.07,
+            0.22
+        );
+
+        playTone(
+            1320,
+            0.05,
+            0.09,
+            0.22
+        );
+
+    } else if (
+        kind === "level"
+    ) {
+
+        playTone(
+            523,
+            0,
+            0.09,
+            0.2
+        );
+
+        playTone(
+            784,
+            0.06,
+            0.12,
+            0.2
+        );
+
+    } else if (
+        kind === "over"
+    ) {
+
+        playTone(
+            400,
+            0,
+            0.12,
+            0.28
+        );
+
+        playTone(
+            200,
+            0.1,
+            0.25,
+            0.28
+        );
+
+    } else if (
+        kind === "win"
+    ) {
+
+        playTone(
+            523,
+            0,
+            0.12,
+            0.22
+        );
+
+        playTone(
+            659,
+            0.1,
+            0.12,
+            0.22
+        );
+
+        playTone(
+            784,
+            0.2,
+            0.25,
+            0.24
+        );
+
+    }
+
+}
+
+function setMuteBtn(
+    isMuted
+) {
+
+    const btn =
+        document.getElementById(
+            "soundBtn"
+        );
+
+    if (btn) {
+
+        btn.textContent =
+            isMuted ?
+            "🔇" :
+            "🔊";
+
+    }
+
+}
+
+function toggleMute() {
+
+    muted = !muted;
+
+    try {
+
+        localStorage.setItem(
+            "snake_muted",
+            muted ? "1" : "0"
+        );
+
+    } catch (e) {}
+
+    setMuteBtn(
+        muted
+    );
+
+}
+
+
+/* ==========================================
+   最高分（localStorage）
+========================================== */
+
+function loadHighScore() {
+
+    let v = 0;
+
+    try {
+
+        v =
+            parseInt(
+                localStorage.getItem(
+                    "snake_highscore"
+                ) ||
+                "0",
+                10
+            ) ||
+            0;
+
+    } catch (e) {}
+
+    highScore =
+        v;
+
+}
+
+function saveHighScore() {
+
+    if (
+        score > highScore
+    ) {
+
+        highScore =
+            score;
+
+    }
+
+    try {
+
+        localStorage.setItem(
+            "snake_highscore",
+            highScore
+        );
+
+    } catch (e) {}
+
+}
+
+function loadMuted() {
+
+    let v = false;
+
+    try {
+
+        v =
+            localStorage.getItem(
+                "snake_muted"
+            ) ===
+            "1";
+
+    } catch (e) {}
+
+    muted =
+        v;
+
 }
 
 
@@ -955,17 +1828,29 @@ function endGame() {
 
     gameOver = true;
 
+    paused = false;
+    setPauseBtn(false);
+
 
     clearInterval(
         gameLoop
     );
 
+    saveHighScore();
+
+    playSound("over");
+
 
     document.getElementById(
         "message"
     ).textContent =
-        "遊戲結束！";
+        "遊戲結束！分數 " +
+        score + "／最高 " +
+        highScore +
+        "，按 ENTER 再玩";
 
+
+    updateInfo();
 
     draw();
 
@@ -973,8 +1858,265 @@ function endGame() {
 
 
 /* ==========================================
+   遊戲勝利
+ ========================================== */
+
+function winGame() {
+
+    gameOver = true;
+
+    victory = true;
+
+    paused = false;
+    setPauseBtn(false);
+
+
+    clearInterval(
+        gameLoop
+    );
+
+    const isNew = score > highScore;
+
+    saveHighScore();
+
+    playSound("win");
+
+
+    document.getElementById(
+        "message"
+    ).textContent =
+        "🏆 勝利！蛇填滿場域！分數 " +
+        score +
+        (isNew ? "，🎉 新紀錄！" : "／最高 " + highScore) +
+        "，按 ENTER 再玩";
+
+
+    updateInfo();
+
+    draw();
+
+    drawTrophy();
+
+}
+
+
+/* ==========================================
+   畫獎杯
+ ========================================== */
+
+function drawTrophy() {
+
+    const cx =
+        canvas.width / 2;
+
+
+    const cy = canvas.height / 2;
+
+
+    ctx.save();
+
+
+    /*
+    半透明遮罩
+    */
+
+    ctx.fillStyle =
+        "rgba(0, 0, 0, 0.65)";
+
+
+    ctx.fillRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+
+    /*
+    杯身
+    */
+
+    ctx.fillStyle =
+        "#ffd700";
+
+
+    ctx.beginPath();
+
+
+    ctx.moveTo(
+        cx - 60,
+        cy - 70
+    );
+
+
+    ctx.lineTo(
+        cx + 60,
+        cy - 70
+    );
+
+
+    ctx.quadraticCurveTo(
+        cx + 60,
+        cy + 10,
+        cx,
+        cy + 10
+    );
+
+
+    ctx.quadraticCurveTo(
+        cx - 60,
+        cy + 10,
+        cx - 60,
+        cy - 70
+    );
+
+
+    ctx.closePath();
+
+
+    ctx.fill();
+
+
+    /*
+    左側把手
+    */
+
+    ctx.beginPath();
+
+
+    ctx.arc(
+        cx - 70,
+        cy - 45,
+        22,
+        Math.PI / 2,
+        Math.PI * 1.5,
+        false
+    );
+
+
+    ctx.arc(
+        cx - 70,
+        cy - 45,
+        10,
+        Math.PI * 1.5,
+        Math.PI / 2,
+        true
+    );
+
+
+    ctx.closePath();
+
+
+    ctx.fill();
+
+
+    /*
+    右側把手
+    */
+
+    ctx.beginPath();
+
+
+    ctx.arc(
+        cx + 70,
+        cy - 45,
+        22,
+        Math.PI / 2,
+        Math.PI * 1.5,
+        true
+    );
+
+
+    ctx.arc(
+        cx + 70,
+        cy - 45,
+        10,
+        Math.PI / 2,
+        Math.PI * 1.5,
+        false
+    );
+
+
+    ctx.closePath();
+
+
+    ctx.fill();
+
+
+    /*
+    杯桿
+    */
+
+    ctx.fillRect(
+        cx - 10,
+        cy + 10,
+        20,
+        25
+    );
+
+
+    /*
+    底座
+    */
+
+    ctx.fillRect(
+        cx - 45,
+        cy + 35,
+        90,
+        18
+    );
+
+
+    /*
+    勝利文字
+    */
+
+    ctx.fillStyle =
+        "#ffffff";
+
+
+    ctx.font =
+        "bold 40px Arial";
+
+
+    ctx.textAlign =
+        "center";
+
+
+    ctx.textBaseline =
+        "middle";
+
+
+    ctx.fillText(
+        "🏆 勝利",
+        cx,
+        cy + 90
+    );
+
+
+    ctx.font =
+        "18px Arial";
+
+
+    ctx.fillStyle =
+        "#cccccc";
+
+
+    ctx.fillText(
+        "按空間鍵或重新開始",
+        cx,
+        cy + 122
+    );
+
+
+    ctx.restore();
+
+}
+
+
+/* ==========================================
    畫遊戲畫面
-========================================== */
+ ========================================== */
 
 function draw() {
 
@@ -1300,130 +2442,116 @@ function drawStar(
    電腦鍵盤控制
 ========================================== */
 
+document.addEventListener(
+
+    "keydown",
+
+    function(event) {
+
+        if (
+            event.key === "ArrowUp"
+        ) {
+
+            event.preventDefault();
+
+            changeDirection("up");
+
+        }
+
+
+        else if (
+            event.key === "ArrowDown"
+        ) {
+
+            event.preventDefault();
+
+            changeDirection("down");
+
+        }
+
+
+        else if (
+            event.key === "ArrowLeft"
+        ) {
+
+            event.preventDefault();
+
+            changeDirection("left");
+
+        }
+
+
+        else if (
+            event.key === "ArrowRight"
+        ) {
+
+            event.preventDefault();
+
+            changeDirection("right");
+
+        }
+
+
+        else if (
+            event.code === "Space"
+        ) {
+
+            event.preventDefault();
+
+            togglePause();
+
+        }
+
+
+        else if (
+            event.code === "Enter"
+        ) {
+
+            restartGame();
+
+        }
+
+    }
+
+);
+
+
 /* ==========================================
-   電腦鍵盤、手機按鈕與滑動控制
+   切頁自動暫停
 ========================================== */
 
-const directionButtons =
-    document.querySelectorAll("[data-direction]");
+document.addEventListener(
 
-directionButtons.forEach(function(button) {
+    "visibilitychange",
 
-    const handler = function(event) {
-        event.preventDefault();
-        changeDirection(button.dataset.direction);
-    };
+    function() {
 
-    button.addEventListener("pointerdown", handler, { passive: false });
-    button.addEventListener("click", handler);
-});
+        if (
+            document.hidden
+        ) {
 
+            pauseGame();
 
-const restartButton =
-    document.getElementById("restartButton");
+        }
 
-restartButton.addEventListener("pointerdown", function(event) {
-    event.preventDefault();
-    restartGame();
-}, { passive: false });
-
-restartButton.addEventListener("click", function() {
-    if (!window.PointerEvent) {
-        restartGame();
-    }
-});
-
-
-document.addEventListener("keydown", function(event) {
-
-    const key = event.key;
-
-    if (
-        key === "ArrowUp" ||
-        key === "ArrowDown" ||
-        key === "ArrowLeft" ||
-        key === "ArrowRight"
-    ) {
-        event.preventDefault();
     }
 
-    if (key === "ArrowUp") {
-        changeDirection("up");
-    } else if (key === "ArrowDown") {
-        changeDirection("down");
-    } else if (key === "ArrowLeft") {
-        changeDirection("left");
-    } else if (key === "ArrowRight") {
-        changeDirection("right");
-    } else if (event.code === "Space") {
-        event.preventDefault();
-        restartGame();
-    }
-});
-
-
-/* 手機滑動控制 */
-
-let touchStartX = 0;
-let touchStartY = 0;
-
-canvas.addEventListener("touchstart", function(event) {
-
-    if (!event.touches.length) {
-        return;
-    }
-
-    touchStartX = event.touches[0].clientX;
-    touchStartY = event.touches[0].clientY;
-
-}, { passive: true });
-
-
-canvas.addEventListener("touchmove", function(event) {
-
-    event.preventDefault();
-
-}, { passive: false });
-
-
-canvas.addEventListener("touchend", function(event) {
-
-    if (!event.changedTouches.length) {
-        return;
-    }
-
-    const touch = event.changedTouches[0];
-
-    const dx = touch.clientX - touchStartX;
-    const dy = touch.clientY - touchStartY;
-
-    const minSwipe = 20;
-
-    if (
-        Math.abs(dx) < minSwipe &&
-        Math.abs(dy) < minSwipe
-    ) {
-        return;
-    }
-
-    if (Math.abs(dx) > Math.abs(dy)) {
-        changeDirection(dx > 0 ? "right" : "left");
-    } else {
-        changeDirection(dy > 0 ? "down" : "up");
-    }
-
-}, { passive: true });
+);
 
 
 /* ==========================================
    初始化
 ========================================== */
 
-if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", restartGame);
-} else {
-    restartGame();
-}
+loadHighScore();
+
+loadMuted();
+
+setMuteBtn(
+    muted
+);
+
+restartGame();
 
 </script>
 
