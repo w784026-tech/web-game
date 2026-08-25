@@ -32,13 +32,12 @@ if (_ind) _ind.textContent = "JS 已啟動";
     font-family: monospace;
     color: #fff;
   }
-  /* 遊戲畫布：黑底，限寬 480 內自動縮放，只動 width 不動 height 避免坍縮 */
+  /* 遊戲畫布：黑底、加邊框、置頂間距 */
   canvas {
     background: #000;
     border: 2px solid #444;
     margin-top: 20px;
-    max-width: 480px;      /* 桌面不放大 */
-    width: 100%;           /* 手機依視窗寬自動縮小（不指定 height，依 canvas 本體 4:5 比例自動對應，不會 0 高度） */
+    max-width: 100%;          /* 小於 480px 的手機自動縮小；不設 height，依 canvas 本體 4:5 自動對應，不會 0 高度 */
   }
   /* 畫布下方的操作說明區 */
   #tip {
