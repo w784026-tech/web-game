@@ -613,8 +613,8 @@ function update() {
   // 按左鍵就左移，按右鍵就右移
   if (keys["ArrowLeft"]) player.x -= player.speed;
   if (keys["ArrowRight"]) player.x += player.speed;
-  // 把玩家限制在畫面內：不能跑到左邊或右邊以外
-  player.x = Math.max(0, Math.min(W - player.w, player.x));
+  // 邊界：允許炮台一半伸到畫面外，左右都能貼到螢幕邊緣（手機單手持握更好操作）
+  player.x = Math.max(-player.w / 2, Math.min(W - player.w / 2, player.x));
 
   /* ---------- 2. 射擊 ---------- */
   const now = Date.now();   // 目前時間（毫秒）
