@@ -6,6 +6,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
 <meta name="theme-color" content="#111" />
 <title>小蜜蜂</title>
+<!-- 除錯：任何 JS 錯誤直接顯示在畫面上，方便手機排查 -->
+<pre id="errbox" style="display:none;position:fixed;top:0;left:0;right:0;z-index:99;background:#a00;color:#fff;margin:0;padding:8px;font:13px monospace;white-space:pre-wrap;"></pre>
+<script>
+window.onerror = function (msg, src, line, col) {
+  var b = document.getElementById("errbox");
+  if (b) {
+    b.style.display = "block";
+    b.textContent = "JS 錯誤: " + msg + " (第 " + (line || "?") + " 行, " + (col || "?") + " 欄)";
+  }
+};
+// 指標：JS 一執行就把此標籤變绿，證明除錯腳本已跑
+var _ind = document.getElementById("jsok");
+if (_ind) _ind.textContent = "JS 已啟動";
+</script>
+<noscript><p style="color:#fff;text-align:center;">此遊戲需要開啟 JavaScript 才能遊玩，請在瀏覽器設定中允許 JavaScript。</p></noscript>
 <style>
   /* 頁面整體樣式：深色背景、內容置中、使用等寬字體 */
   body {
@@ -60,15 +75,14 @@
     #tip, #controls { display: none; }
     canvas {
       width: 100%;
-      height: auto;
-      aspect-ratio: 480 / 600;   /* 依本體比例（4:5）推出高度，避免 auto 高度坍縮 */
+      height: auto;              /* 依 canvas 本體比例(4:5)自動對應高度，手機驗證過可用 */
       max-height: 100vh;
       max-height: 100dvh;
-      max-width: calc(100dvh * 0.8);
-      object-fit: contain;
       border: none;
-      margin: 0 auto;
+      margin: 0;
+      display: block;
       touch-action: none;
+      background: #000;
     }
     .tbtn {
       position: fixed;
@@ -100,6 +114,8 @@
 </style>
 </head>
 <body>
+<!-- 指紋：JS 是否啟動（若一直顯示「等待 JS…」代表腳本被擋下/沒跑起來） -->
+<p id="jsok" style="position:fixed;bottom:2px;left:2px;z-index:99;color:#8f8;font:12px monospace;opacity:.8;"> waiting js... 等待 JS…</p>
 <!-- 遊戲畫布：所有遊戲畫面（含抬頭 HUD）都畫在這 480x600 的區域內 -->
 <canvas id="game" width="480" height="600"></canvas>
 <!-- 操作說明（放在畫布下方，不佔遊戲畫面） -->
