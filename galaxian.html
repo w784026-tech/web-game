@@ -32,11 +32,13 @@ if (_ind) _ind.textContent = "JS 已啟動";
     font-family: monospace;
     color: #fff;
   }
-  /* 遊戲畫布：黑底、加邊框、置頂間距 */
+  /* 遊戲畫布：黑底，限寬 480 內自動縮放，只動 width 不動 height 避免坍縮 */
   canvas {
     background: #000;
     border: 2px solid #444;
     margin-top: 20px;
+    max-width: 480px;      /* 桌面不放大 */
+    width: 100%;           /* 手機依視窗寬自動縮小（不指定 height，依 canvas 本體 4:5 比例自動對應，不會 0 高度） */
   }
   /* 畫布下方的操作說明區 */
   #tip {
@@ -65,35 +67,19 @@ if (_ind) _ind.textContent = "JS 已啟動";
     display: block;
     margin: 20px auto 0 auto;
   }
-  /* 手機：遊戲畫面放寬、觸控按鈕顯示 */
+  /* 手機觸控按鈕：透明箭頭、無外框、無底色，不擋炮台 */
   @media (max-width: 600px), (pointer: coarse) {
-    body {
-      height: 100vh;
-      height: 100dvh;
-      justify-content: center;
-    }
     #tip, #controls { display: none; }
-    canvas {
-      width: 100%;
-      height: auto;              /* 依 canvas 本體比例(4:5)自動對應高度，手機驗證過可用 */
-      max-height: 100vh;
-      max-height: 100dvh;
-      border: none;
-      margin: 0;
-      display: block;
-      touch-action: none;
-      background: #000;
-    }
     .tbtn {
       position: fixed;
       bottom: 16px;
       z-index: 10;
       width: 90px;
       height: 90px;
-      border-radius: 0;            /* 無圓形 */
-      border: none;                /* 無外框，不擋炮台 */
-      background: none;            /* 完全沒有底色，炮台整片看得見 */
-      color: rgba(255, 255, 255, 0.5);   /* 只留淡淡的箭頭字 */
+      border-radius: 0;
+      border: none;
+      background: none;
+      color: rgba(255, 255, 255, 0.5);
       font-size: 40px;
       line-height: 1;
       display: flex;
@@ -104,13 +90,10 @@ if (_ind) _ind.textContent = "JS 已啟動";
       touch-action: none;
       -webkit-tap-highlight-color: transparent;
     }
-    .tbtn:active {
-      color: #fff;                 /* 按壓時箭頭變亮，確認有觸到（無圓形高亮） */
-    }
-    /* 左鍵 100px（最左）／右鍵 92px／射擊鍵 90px */
-    #btnTL { left: 42px; width: 100px; height: 100px; font-size: 44px; }
-    #btnTR { left: 158px; width: 92px; height: 92px; font-size: 42px; }
-    #btnFire { right: 42px; width: 90px; height: 90px; font-size: 40px; }
+    .tbtn:active { color: #fff; }
+    #btnTL  { left: 42px; width: 100px; height: 100px; font-size: 44px; }
+    #btnTR  { left: 158px; width: 92px; height: 92px; font-size: 42px; }
+    #btnFire{ right: 42px; width: 90px; height: 90px; font-size: 40px; }
   }
 </style>
 </head>
@@ -1312,4 +1295,9 @@ function loop() {
 
   update();                          // 1. 更新所有遊戲邏輯
   draw();                            // 2. 把畫面重新畫一次
-  requestAnimationFrame(loop);      
+  requestAnimationFrame(loop);       // 向瀏覽器申請下一幀，形成循環
+}
+loop();                              // 啟動遊戲迴圈
+</script>
+</body>
+</html>
