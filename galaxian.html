@@ -90,11 +90,12 @@ if (_ind) _ind.textContent = "JS 已啟動";
       z-index: 10;
       width: 90px;
       height: 90px;
-      border-radius: 50%;
-      border: none;                /* 去掉外框，不擋炮台 */
-      background: transparent;     /* 底色透明，炮台透出來 */
-      color: rgba(255, 255, 255, 0.45);   /* 箭頭淡出，平時幾乎看不見 */
+      border-radius: 0;            /* 無圓形 */
+      border: none;                /* 無外框，不擋炮台 */
+      background: none;            /* 完全沒有底色，炮台整片看得見 */
+      color: rgba(255, 255, 255, 0.5);   /* 只留淡淡的箭頭字 */
       font-size: 40px;
+      line-height: 1;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -104,19 +105,12 @@ if (_ind) _ind.textContent = "JS 已啟動";
       -webkit-tap-highlight-color: transparent;
     }
     .tbtn:active {
-      background: rgba(120, 120, 120, 0.5);
-      color: #fff;                 /* 按壓時才亮起，確認有觸到 */
+      color: #fff;                 /* 按壓時箭頭變亮，確認有觸到（無圓形高亮） */
     }
     /* 左鍵 100px（最左）／右鍵 92px／射擊鍵 90px */
     #btnTL { left: 42px; width: 100px; height: 100px; font-size: 44px; }
     #btnTR { left: 158px; width: 92px; height: 92px; font-size: 42px; }
-    /* 射擊鍵保留輕微底色，讓右手知道這是主要操作區 */
-    #btnFire {
-      right: 42px;
-      width: 90px; height: 90px; font-size: 40px;
-      color: rgba(255, 255, 255, 0.6);
-      background: rgba(70, 70, 70, 0.35);
-    }
+    #btnFire { right: 42px; width: 90px; height: 90px; font-size: 40px; }
   }
 </style>
 </head>
@@ -1316,4 +1310,6 @@ function loop() {
   // 重新開始時重置結束曲狀態
   if (!gameOver) endMusicPlayed = false;
 
-  update();  
+  update();                          // 1. 更新所有遊戲邏輯
+  draw();                            // 2. 把畫面重新畫一次
+  requestAnimationFrame(loop);      
