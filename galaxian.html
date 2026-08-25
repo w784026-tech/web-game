@@ -127,7 +127,7 @@ const player = {
   y: H - 40,       // 靠近底部
   w: 40,
   h: 20,
-  speed: 5         // 每幀移動 5 像素
+   speed: 7         // 每幀移動 7 像素（調快，手機左側空間小也能快速移動）
 };
 
 /* ============================================================
@@ -610,11 +610,14 @@ function update() {
   if (Date.now() < freezeUntil) return;
 
   /* ---------- 1. 玩家移動 ---------- */
+  // 邊界：允許炮台最大一個身位垂到畫面外，有效加大左右（尤其左側）的移動空間，
+  // 手機單手持握時左拇指範圍小，也能把炮台壓到極左位置閃躲
+  const PLAYER_MIN = -player.w;
+  const PLAYER_MAX = W;
   // 按左鍵就左移，按右鍵就右移
   if (keys["ArrowLeft"]) player.x -= player.speed;
   if (keys["ArrowRight"]) player.x += player.speed;
-  // 邊界：允許炮台一半伸到畫面外，左右都能貼到螢幕邊緣（手機單手持握更好操作）
-  player.x = Math.max(-player.w / 2, Math.min(W - player.w / 2, player.x));
+  player.x = Math.max(PLAYER_MIN, Math.min(PLAYER_MAX, player.x));
 
   /* ---------- 2. 射擊 ---------- */
   const now = Date.now();   // 目前時間（毫秒）
