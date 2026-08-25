@@ -66,25 +66,30 @@
     }
     .tbtn {
       position: fixed;
-      bottom: 14px;
+      bottom: 16px;
       z-index: 10;
-      width: 72px;
-      height: 72px;
+      width: 90px;
+      height: 90px;
       border-radius: 50%;
-      border: 2px solid #666;
-      background: rgba(60, 60, 60, 0.6);
+      border: 2px solid #888;
+      background: rgba(70, 70, 70, 0.75);
       color: #fff;
-      font-size: 30px;
+      font-size: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
       user-select: none;
       -webkit-user-select: none;
       touch-action: none;
+      -webkit-tap-highlight-color: rgba(120, 120, 120, 0.4);
     }
-    #btnTL { left: 12px; }
-    #btnTR { left: 100px; }
-    #btnFire { right: 12px; width: 88px; height: 88px; font-size: 34px; }
+    .tbtn:active {
+      background: rgba(100, 100, 100, 0.9);
+    }
+    /* 左鍵 100px（最大、貼最左）／右鍵 92px／射擊鍵 90px */
+    #btnTL { left: 14px; width: 100px; height: 100px; font-size: 44px; }
+    #btnTR { left: 130px; width: 92px; height: 92px; font-size: 42px; }
+    #btnFire { right: 14px; width: 90px; height: 90px; font-size: 40px; }
   }
 </style>
 </head>
@@ -1280,13 +1285,4 @@ function loop() {
     playEndMusic();
   }
   // 重新開始時重置結束曲狀態
-  if (!gameOver) endMusicPlayed = false;
-
-  update();                          // 1. 更新所有遊戲邏輯
-  draw();                            // 2. 把畫面重新畫一次
-  requestAnimationFrame(loop);       // 向瀏覽器申請下一幀，形成循環
-}
-loop();                              // 啟動遊戲迴圈
-</script>
-</body>
-</html>
+  if (!game
