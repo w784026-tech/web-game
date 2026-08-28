@@ -868,19 +868,34 @@ function createNormalFood() {
 
     let y;
 
+    let found = false;
 
-    do {
+    for (
+        let a = 0;
+        a < tileCount * tileCount
+            &&
+            !found;
+        a++
+    ) {
 
         x = randomPosition();
 
         y = randomPosition();
 
-    } while (
+        found =
+            !isOnSnake(x, y) &&
+            !isOnFood(x, y);
 
-        isOnSnake(x, y) ||
-        isOnFood(x, y)
+    }
 
-    );
+
+    if (
+        !found
+    ) {
+
+        return;
+
+    }
 
 
     foods.push({
@@ -906,19 +921,34 @@ function createSpecialFood() {
 
     let y;
 
+    let found = false;
 
-    do {
+    for (
+        let a = 0;
+        a < tileCount * tileCount
+            &&
+            !found;
+        a++
+    ) {
 
         x = randomPosition();
 
         y = randomPosition();
 
-    } while (
+        found =
+            !isOnSnake(x, y) &&
+            !isOnFood(x, y);
 
-        isOnSnake(x, y) ||
-        isOnFood(x, y)
+    }
 
-    );
+
+    if (
+        !found
+    ) {
+
+        return;
+
+    }
 
 
     foods.push({
@@ -2518,43 +2548,4 @@ document.addEventListener(
 
 /* ==========================================
    切頁自動暫停
-========================================== */
-
-document.addEventListener(
-
-    "visibilitychange",
-
-    function() {
-
-        if (
-            document.hidden
-        ) {
-
-            pauseGame();
-
-        }
-
-    }
-
-);
-
-
-/* ==========================================
-   初始化
-========================================== */
-
-loadHighScore();
-
-loadMuted();
-
-setMuteBtn(
-    muted
-);
-
-restartGame();
-
-</script>
-
-</body>
-
-</html>
+====================
