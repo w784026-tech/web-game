@@ -1778,6 +1778,13 @@ function toggleMute() {
         muted
     );
 
+
+    /*
+    同步背景音樂
+    */
+
+    syncBgm();
+
 }
 
 
@@ -1851,8 +1858,114 @@ function loadMuted() {
 
 
 /* ==========================================
-   遊戲結束
-========================================== */
+    背景音樂（BGM）
+ ========================================== */
+
+let bgm = null;
+
+
+function bgmReady() {
+
+    if (
+        bgm
+    ) {
+
+        return;
+
+    }
+
+
+    bgm =
+        new Audio(
+            "Pursuit_of_the_Last_Life.mp3"
+        );
+
+
+    bgm.loop = true;
+
+    bgm.volume = 0.35;
+
+
+    /*
+    瀏覽器 autoplay 政策：
+    第一次使用者按鍵/點擊時才開
+    */
+
+    const start =
+        function() {
+
+            if (
+                !muted
+            ) {
+
+                bgm
+                    .play()
+                    .catch(
+                        function() {}
+                    );
+
+            }
+
+
+            document.removeEventListener(
+                "keydown",
+                start
+            );
+
+            document.removeEventListener(
+                "pointerdown",
+                start
+            );
+
+        };
+
+
+    document.addEventListener(
+        "keydown",
+        start
+    );
+
+    document.addEventListener(
+        "pointerdown",
+        start
+    );
+
+}
+
+
+function syncBgm() {
+
+    if (
+        !bgm
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        muted
+    ) {
+
+        bgm.pause();
+
+    } else if (
+        bgm.paused
+    ) {
+
+        bgm.play().catch(
+            function() {}
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+    遊戲結束
+ ========================================== */
 
 function endGame() {
 
@@ -2444,108 +2557,4 @@ function drawStar(
             innerRadius;
 
 
-        ctx.lineTo(
-            x,
-            y
-        );
-
-
-        rotation += step;
-
-    }
-
-
-    ctx.lineTo(
-        cx,
-        cy - outerRadius
-    );
-
-
-    ctx.closePath();
-
-    ctx.fill();
-
-}
-
-
-/* ==========================================
-   電腦鍵盤控制
-========================================== */
-
-document.addEventListener(
-
-    "keydown",
-
-    function(event) {
-
-        if (
-            event.key === "ArrowUp"
-        ) {
-
-            event.preventDefault();
-
-            changeDirection("up");
-
-        }
-
-
-        else if (
-            event.key === "ArrowDown"
-        ) {
-
-            event.preventDefault();
-
-            changeDirection("down");
-
-        }
-
-
-        else if (
-            event.key === "ArrowLeft"
-        ) {
-
-            event.preventDefault();
-
-            changeDirection("left");
-
-        }
-
-
-        else if (
-            event.key === "ArrowRight"
-        ) {
-
-            event.preventDefault();
-
-            changeDirection("right");
-
-        }
-
-
-        else if (
-            event.code === "Space"
-        ) {
-
-            event.preventDefault();
-
-            togglePause();
-
-        }
-
-
-        else if (
-            event.code === "Enter"
-        ) {
-
-            restartGame();
-
-        }
-
-    }
-
-);
-
-
-/* ==========================================
-   切頁自動暫停
-====================
+    
